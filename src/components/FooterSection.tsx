@@ -9,7 +9,7 @@ export default async function FooterSection() {
     const res = await databases.listDocuments('puskesmaslenteng_db', 'pusat_informasi');
     informasiList = res.documents;
   } catch (e) {
-    console.warn("Could not fetch pusat_informasi for footer", e.message);
+    console.warn("Could not fetch pusat_informasi for footer", String(e));
   }
 
   return (
