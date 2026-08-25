@@ -1,0 +1,26 @@
+
+> puskesmas_react@0.1.0 build
+> next build
+
+⚠ `eslint` configuration in next.config.ts is no longer supported. See more info here: https://nextjs.org/docs/app/api-reference/cli/next#next-lint-options
+⚠ Invalid next.config.ts options detected: 
+⚠     Unrecognized key(s) in object: 'eslint'
+⚠ See more info here: https://nextjs.org/docs/messages/invalid-next-config
+▲ Next.js 16.2.12 (Turbopack)
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 15.3s
+  Running TypeScript ...
+Failed to type check.
+
+./next.config.ts:22:3
+Type error: Object literal may only specify known properties, and 'eslint' does not exist in type 'NextConfig'.
+
+  [90m20 |[0m     ],
+  [90m21 |[0m   },
+[31m[1m>[0m [90m22 |[0m   eslint: {
+  [90m   |[0m   [31m[1m^[0m
+  [90m23 |[0m     ignoreDuringBuilds: [36mtrue[0m,
+  [90m24 |[0m   },
+  [90m25 |[0m };
+Next.js build worker exited with code: 1 and signal: null
