@@ -31,7 +31,7 @@ export default function AdminDashboard() {
             <div className="w-[60px] h-[60px] bg-[var(--green-deep)] rounded-[16px] flex items-center justify-center mb-4">
                <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
             </div>
-            <h1 className="text-2xl font-bold text-gray-800">SIMPUS Admin</h1>
+            <h1 className="text-2xl font-bold text-gray-800">Admin</h1>
             <p className="text-sm text-gray-500">Silakan login untuk melanjutkan</p>
           </div>
           
@@ -74,7 +74,7 @@ function AdminMain({ setIsLoggedIn }: { setIsLoggedIn: (val: boolean) => void })
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
           </div>
           <div className="flex flex-col">
-            <h1 className="font-bold text-[16px] text-gray-800 leading-tight">SIMPUS Admin</h1>
+            <h1 className="font-bold text-[16px] text-gray-800 leading-tight">Admin</h1>
             <p className="text-[12px] text-gray-400 font-medium">Sistem Informasi Manajemen Puskesmas</p>
           </div>
         </div>
