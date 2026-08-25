@@ -17,15 +17,15 @@ export default function GaleriSlider() {
           setImages(res.documents.map((doc) => doc.url));
         } else {
           setImages([
-            "/images/slider-1.jpg",
-            "/images/slider-2.jpg",
+            "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?q=80&w=1000&auto=format&fit=crop",
+            "https://images.unsplash.com/photo-1516549655169-df83a0774514?q=80&w=1000&auto=format&fit=crop",
           ]);
         }
       } catch (e: any) {
         console.warn("Error fetching galeri:", e.message);
         setImages([
-            "/images/slider-1.jpg",
-            "/images/slider-2.jpg",
+            "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?q=80&w=1000&auto=format&fit=crop",
+            "https://images.unsplash.com/photo-1516549655169-df83a0774514?q=80&w=1000&auto=format&fit=crop",
         ]);
       } finally {
         setLoading(false);
