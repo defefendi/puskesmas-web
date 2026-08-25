@@ -4,7 +4,7 @@ import { Globe, Camera, MessageCircle, Play } from 'lucide-react';
 import { databases } from '@/appwrite';
 
 export default async function FooterSection() {
-  let informasiList = [];
+  let informasiList: any[] = [];
   try {
     const res = await databases.listDocuments('puskesmaslenteng_db', 'pusat_informasi');
     informasiList = res.documents;
