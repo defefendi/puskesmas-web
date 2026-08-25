@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { ID } from "appwrite";
 import { databases } from "@/appwrite";
 
 export function GenericAdminTab({
