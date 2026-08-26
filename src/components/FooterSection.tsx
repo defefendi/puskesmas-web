@@ -1,6 +1,12 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { Globe, Camera, MessageCircle, Play } from 'lucide-react';
+import { Youtube, Instagram } from 'lucide-react';
+
+const TiktokIcon = ({ size = 20 }: { size?: number }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5v3a4 4 0 0 1-5-5v11a4 4 0 1 1-4-4Z"/>
+  </svg>
+);
 import { databases } from '@/appwrite';
 
 export default async function FooterSection() {
@@ -32,11 +38,15 @@ export default async function FooterSection() {
               Memberikan pelayanan kesehatan primer berkualitas, terjangkau, dan merata kepada seluruh masyarakat Lenteng dan sekitarnya.
             </p>
             <div className="flex gap-3">
-              {[Globe, Camera, MessageCircle, Play].map((Icon, idx) => (
-                <div key={idx} className="p-2.5 bg-white/5 rounded-lg text-white/70 hover:bg-white/10 hover:text-white transition cursor-pointer">
-                  <Icon size={20} />
-                </div>
-              ))}
+              <a href="https://youtube.com/@puskesmaslenteng" target="_blank" rel="noreferrer" className="p-2.5 bg-white/5 rounded-lg text-white/70 hover:bg-red-600 hover:text-white transition cursor-pointer" title="YouTube">
+                <Youtube size={20} />
+              </a>
+              <a href="https://instagram.com/puskesmaslenteng" target="_blank" rel="noreferrer" className="p-2.5 bg-white/5 rounded-lg text-white/70 hover:bg-pink-600 hover:text-white transition cursor-pointer" title="Instagram">
+                <Instagram size={20} />
+              </a>
+              <a href="https://tiktok.com/@puskesmaslenteng" target="_blank" rel="noreferrer" className="p-2.5 bg-white/5 rounded-lg text-white/70 hover:bg-gray-800 hover:text-white transition cursor-pointer" title="TikTok">
+                <TiktokIcon size={20} />
+              </a>
             </div>
 
             <div className="pt-4">
