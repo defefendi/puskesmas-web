@@ -5,7 +5,7 @@ import { databases, storage, ID } from "@/appwrite";
 import Link from "next/link";
 import { GenericAdminTab, TabBed, TabAntrean, TabDetailKlaster } from "./components";
 
-type TabName = "antrean" | "pengumuman" | "tenaga-medis" | "poli" | "program" | "bed" | "rujukan" | "galeri" | "klaster" | "artikel" | "informasi";
+type TabName = "antrean" | "pengumuman" | "tenaga-medis" | "poli" | "program" | "bed" | "rujukan" | "galeri" | "klaster" | "artikel" | "informasi" | "pengaturan";
 
 export default function AdminDashboard() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -97,6 +97,8 @@ function AdminMain({ setIsLoggedIn }: { setIsLoggedIn: (val: boolean) => void })
             <SidebarItem active={activeTab === "galeri"} onClick={() => setActiveTab("galeri")} icon={<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>} label="Galeri Slider" />
             
             <SidebarItem active={activeTab === "klaster"} onClick={() => setActiveTab("klaster")} icon={<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 7h-9"/><path d="M14 17H5"/><circle cx="17" cy="17" r="3"/><circle cx="7" cy="7" r="3"/></svg>} label="Kelola Detail Klaster" />
+            
+            <SidebarItem active={activeTab === "pengaturan"} onClick={() => setActiveTab("pengaturan")} icon={<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>} label="Pengaturan Situs" />
 
           </div>
           
@@ -135,6 +137,7 @@ function AdminMain({ setIsLoggedIn }: { setIsLoggedIn: (val: boolean) => void })
             {activeTab === "informasi" && (
               <GenericAdminTab title="Pusat Informasi & Tautan" collectionId="pusat_informasi" titleField="nama_aplikasi" subtitleField="link_url" />
             )}
+            {activeTab === "pengaturan" && <TabPengaturanSitus />}
 
           </div>
         </main>
@@ -573,6 +576,94 @@ function TabGaleri() {
               </div>
             </form>
           </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function TabPengaturanSitus() {
+  const [settings, setSettings] = useState({
+    youtubeUrl: "",
+    instagramUrl: "",
+    tiktokUrl: "",
+    facebookUrl: ""
+  });
+  const [isLoading, setIsLoading] = useState(true);
+  const [isSaving, setIsSaving] = useState(false);
+
+  useEffect(() => {
+    fetchSettings();
+  }, []);
+
+  const fetchSettings = async () => {
+    setIsLoading(true);
+    try {
+      const res = await databases.getDocument("puskesmaslenteng_db", "pengaturan_situs", "6a8e612c001e08cefe87");
+      setSettings({
+        youtubeUrl: res.youtubeUrl || "",
+        instagramUrl: res.instagramUrl || "",
+        tiktokUrl: res.tiktokUrl || "",
+        facebookUrl: res.facebookUrl || ""
+      });
+    } catch (e: any) {
+      console.warn("Belum ada data pengaturan situs, silakan simpan baru.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleSave = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSaving(true);
+    try {
+      try {
+        await databases.updateDocument("puskesmaslenteng_db", "pengaturan_situs", "6a8e612c001e08cefe87", settings);
+      } catch (e) {
+        // Jika dokumen belum ada
+        await databases.createDocument("puskesmaslenteng_db", "pengaturan_situs", "6a8e612c001e08cefe87", settings);
+      }
+      alert("Pengaturan situs berhasil disimpan!");
+    } catch (e: any) {
+      alert("Gagal menyimpan pengaturan: " + e.message);
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  return (
+    <div className="p-8">
+      <div className="mb-8">
+        <h2 className="text-[22px] font-bold text-gray-800">Pengaturan Situs</h2>
+        <p className="text-[13px] text-gray-500 mt-1">Kelola tautan media sosial dan konfigurasi global website.</p>
+      </div>
+
+      {isLoading ? (
+        <div className="text-[14px] text-gray-500 italic">Memuat pengaturan...</div>
+      ) : (
+        <div className="bg-white border border-gray-200 rounded-[16px] p-6 max-w-[600px]">
+          <h3 className="font-bold text-gray-800 mb-4 border-b pb-2">Media Sosial</h3>
+          <form onSubmit={handleSave} className="flex flex-col gap-4">
+            <div>
+              <label className="block text-[12px] font-bold text-gray-600 mb-1">YouTube URL</label>
+              <input value={settings.youtubeUrl} onChange={e=>setSettings({...settings, youtubeUrl: e.target.value})} type="url" className="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-[14px] outline-none focus:border-[var(--green-mid)]" placeholder="https://youtube.com/..." />
+            </div>
+            <div>
+              <label className="block text-[12px] font-bold text-gray-600 mb-1">Instagram URL</label>
+              <input value={settings.instagramUrl} onChange={e=>setSettings({...settings, instagramUrl: e.target.value})} type="url" className="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-[14px] outline-none focus:border-[var(--green-mid)]" placeholder="https://instagram.com/..." />
+            </div>
+            <div>
+              <label className="block text-[12px] font-bold text-gray-600 mb-1">TikTok URL</label>
+              <input value={settings.tiktokUrl} onChange={e=>setSettings({...settings, tiktokUrl: e.target.value})} type="url" className="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-[14px] outline-none focus:border-[var(--green-mid)]" placeholder="https://tiktok.com/..." />
+            </div>
+            <div>
+              <label className="block text-[12px] font-bold text-gray-600 mb-1">Facebook URL</label>
+              <input value={settings.facebookUrl} onChange={e=>setSettings({...settings, facebookUrl: e.target.value})} type="url" className="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-[14px] outline-none focus:border-[var(--green-mid)]" placeholder="https://facebook.com/..." />
+            </div>
+            <button type="submit" disabled={isSaving} className="mt-4 bg-[#1A8A57] hover:bg-[#146e45] text-white px-5 py-3 rounded-[12px] font-bold text-[14px] transition disabled:opacity-50">
+              {isSaving ? "Menyimpan..." : "Simpan Pengaturan"}
+            </button>
+          </form>
         </div>
       )}
     </div>
